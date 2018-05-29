@@ -264,14 +264,13 @@ def points(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.j
     print('x', nolannotate.cleanformat(xcoords))
     print('y', nolannotate.cleanformat(ycoords))
 
-def paint(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg'):
+def paint(filename='Chameleon.jpg'):
     from IPython.display import HTML
     from urllib.request import urlopen
     from scipy.misc import imread, imsave
     url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg'
     with urlopen(url1) as file:
         im1 = imread(file, mode='RGB')
-    pyx='Chameleon.jpg'
     HTML("<div id='xtextid'>" + pyx + "</div>")
     main_txt = """
 
@@ -304,7 +303,7 @@ def paint(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jp
 
        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
        <script type="text/javascript">
-          var x = 'Chameleon.jpg';
+          var bacground = \""""+filename+"""\";
           $(document).ready(function () {
              initialize(bacground);
           });
