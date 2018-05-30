@@ -266,15 +266,16 @@ def points(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.j
 
 def paint(filename='Chameleon.jpg'):
     from IPython.display import HTML
+    import base64
     from urllib.request import urlopen
     from scipy.misc import imread, imsave
     url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg'
     with urlopen(url1) as file:
         im1 = imread(file, mode='RGB')
-    HTML("<div id='xtextid'>" + pyx + "</div>")
+    image = open(filename, 'rb')
+    image_read = image.read()
+    image_64_encode = base64.encodestring(image_read)
     main_txt = """
-
-
        <h1>Canvas test</h1>
        <h4>Screenshot</h4>
        <button id="snap">Snap Photo</button>
