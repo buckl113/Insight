@@ -51,8 +51,8 @@ def camera():
     plt.imshow(im)
     
 def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/ar_16:9,c_fill,w_1000,g_face,q_50/Michigan/migration_photos/G21696/G21696-msubeaumonttower01.jpg',url2 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg'):
-    %matplotlib inline
-    from __future__ import division
+    #%matplotlib inline
+    #from __future__ import division
     import matplotlib.pyplot as plt
     import numpy as np
     import scipy.misc as misc
@@ -62,7 +62,7 @@ def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/
     from skimage import transform
 
     # Here are some libraries you may need to use
-    %matplotlib inline
+    #%matplotlib inline
     import matplotlib.pylab as plt
     import sympy as sp
     sp.init_printing()
