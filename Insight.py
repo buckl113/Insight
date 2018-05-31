@@ -97,7 +97,7 @@ def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/
 def points(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg'):
     import sys
     sys.path.append('./packages')
-    %matplotlib inline
+    #%matplotlib inline
     import scipy.misc as misc
     import matplotlib.pylab as plt
     from urllib.request import urlopen
@@ -257,13 +257,13 @@ def points(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.j
                           "y": y};
     
     with urlopen(url1) as file:
-    fig = plt.figure(figsize=(9,6))
         im = imread(file, mode='RGB')
+    fig = plt.figure(figsize=(9,6))
     plt.imshow(im)
-    nolannotate.pickpoints(color='cyan', radius=2, x='xcoords', y='ycoords')
-    print('x', nolannotate.cleanformat(xcoords))
-    print('y', nolannotate.cleanformat(ycoords))
-
+    pickpoints(color='cyan', radius=2, x='xcoords', y='ycoords')
+    #print('x', cleanformat(xcoords))
+    #print('y', cleanformat(ycoords))
+    
 def paint(filename='Chameleon.jpg'):
     from IPython.display import HTML
     import base64
