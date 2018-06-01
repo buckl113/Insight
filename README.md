@@ -8,7 +8,7 @@ The user can snap a photo by clicking on the "Snap Photo" button, and the photo 
 This program allows the user to input the url of two different photos.
 The program uses python to allow the user to change the horizontal or vertical alignments of the photos, fade one photo into the other, change the size of each photo, and rotate the photos.
 ## points
-This allows the user to input the url of a photo to use as a background.
+This allows the user to input the url of a photo to use as a background, input point color, and input point radius.
 Using both python and javascript, this program allows the user to select and drag points on the background picture, which is displayed on an x-y plot.
 The program then allows the user to view the x and y coordinates of each point.
 ## paint
