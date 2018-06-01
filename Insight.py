@@ -45,10 +45,10 @@ def camera():
     </script>
 
     """
-    HTML(main_text)
+    return HTML(main_text)
     
-    im = Image.open(io.BytesIO(base64.b64decode(image.split(',')[1])))
-    plt.imshow(im)
+    #im = Image.open(io.BytesIO(base64.b64decode(image.split(',')[1])))
+    #plt.imshow(im)
     
 def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/ar_16:9,c_fill,w_1000,g_face,q_50/Michigan/migration_photos/G21696/G21696-msubeaumonttower01.jpg',url2 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg'):
     #%matplotlib inline
@@ -574,7 +574,7 @@ def paint(filename='Chameleon.jpg'):
        </script>
 
     """
-    HTML(main_txt)
+    return HTML(main_txt)
     %matplotlib inline
     import matplotlib.pylab as plt
     from PIL import Image
