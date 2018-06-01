@@ -94,7 +94,7 @@ def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/
         plt.show();
     interact(affine_image, a1=(-180,180), s=(0.001,5), tx=(-1.0,1.0), ty=(-1,1,0.1),alpha=(0.0,1.0)); ##TODO: Modify this line of code
 
-def points(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg'):
+def points(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg', point_color='black',point_radius=2):
     import sys
     sys.path.append('./packages')
     #%matplotlib inline
@@ -111,6 +111,10 @@ def points(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.j
     import mpld3
     from mpld3 import plugins
     mpld3.enable_notebook()
+    try:
+        point_radius=float(point_radius)
+    except ValueError:
+        point_radius=2
 
     # PLOTS THE IMAGE IN THE NOTEBOOK
     def plot(imgname):
@@ -249,6 +253,20 @@ def points(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.j
 
         };"""
 
+        def __init__(self, radius=4, color="white", x ='x', y ='y'):
+            self.dict_ = {"type": "annotate",
+                          "radius": radius,
+                          "color": color,
+                          "x": x,
+                          "y": y};
+    
+    with urlopen(url1) as file:
+        im = imread(file, mode='RGB')
+    fig = plt.figure(figsize=(9,6))
+    plt.imshow(im)
+    pickpoints(color=point_color, radius=point_radius, x='xcoords', y='ycoords')
+    #print('x', cleanformat(xcoords))
+    #print('y', cleanformat(ycoords))
         def __init__(self, radius=4, color="white", x ='x', y ='y'):
             self.dict_ = {"type": "annotate",
                           "radius": radius,
