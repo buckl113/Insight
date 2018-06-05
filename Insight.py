@@ -1,11 +1,14 @@
+from PIL import Image
+import matplotlib.pylab as plt
+import matplotlib.image as img
+from IPython.display import HTML
+
+import base64
+import io
+
 def camera():
     #%matplotlib inline
-    import matplotlib.pylab as plt
-    import matplotlib.image as img
-    from IPython.display import HTML
-    from PIL import Image
-    import base64
-    import io
+
     main_text = """
     <video id="video" width="640" height="480" autoplay></video>
     <button id="snap">Snap Photo</button>
@@ -30,15 +33,13 @@ def camera():
 
     // Trigger photo take
     document.getElementById("snap").addEventListener("click", function() {
+        //TODO Get rid of hard coded image sizes. 
         context.drawImage(video, 0, 0, 640, 480);
-
-
-
         var myCanvas = document.getElementById('canvas');
         var image = myCanvas.toDataURL("image/png");
-        IPython.notebook.kernel.execute("print('testing')")
-        IPython.notebook.kernel.execute("image = '" + image + "'")
 
+        IPython.notebook.kernel.execute("image = '" + image + "'")
+        //TODO Convert Image to im 
     });
 
     var today= new Date()
@@ -50,6 +51,7 @@ def camera():
 def camera_plot(image):
     im = Image.open(io.BytesIO(base64.b64decode(image.split(',')[1])))
     plt.imshow(im)
+    return im
     
 def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/ar_16:9,c_fill,w_1000,g_face,q_50/Michigan/migration_photos/G21696/G21696-msubeaumonttower01.jpg',url2 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg'):
     #%matplotlib inline
@@ -77,8 +79,8 @@ def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/
         im2 = imread(file, mode='RGB')
 
     #Show the images
-    plt.imshow(im1);
-    plt.imshow(im2)
+    #plt.imshow(im1);
+    #plt.imshow(im2)
     im = im1
     def affine_image(a1=0,s=1,tx=0,ty=0, alpha=1):
         theta = -a1/180  * math.pi
@@ -95,7 +97,8 @@ def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/
         plt.show();
     interact(affine_image, a1=(-180,180), s=(0.001,5), tx=(-1.0,1.0), ty=(-1,1,0.1),alpha=(0.0,1.0)); ##TODO: Modify this line of code
 
-def points(url = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg', point_color='black',point_radius=2):
+def points(im = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg', point_color='black',point_radius=2):
+        
     import sys
     sys.path.append('./packages')
     #%matplotlib inline
@@ -261,8 +264,10 @@ def points(url = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jp
                           "x": x,
                           "y": y};
     
-    with urlopen(url1) as file:
-        im = imread(file, mode='RGB')
+    if type(im) == str:
+        with urlopen(im) as file:
+            im2 = imread(file, mode='RGB')
+        im = im2
     fig = plt.figure(figsize=(9,6))
     plt.imshow(im)
     pickpoints(color=point_color, radius=point_radius, x='xcoords', y='ycoords')
