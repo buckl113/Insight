@@ -1,5 +1,5 @@
 def camera():
-    %matplotlib inline
+    #%matplotlib inline
     import matplotlib.pylab as plt
     import matplotlib.image as img
     from IPython.display import HTML
@@ -47,8 +47,9 @@ def camera():
     """
     return HTML(main_text)
     
-    #im = Image.open(io.BytesIO(base64.b64decode(image.split(',')[1])))
-    #plt.imshow(im)
+def camera_plot(image):
+    im = Image.open(io.BytesIO(base64.b64decode(image.split(',')[1])))
+    plt.imshow(im)
     
 def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/ar_16:9,c_fill,w_1000,g_face,q_50/Michigan/migration_photos/G21696/G21696-msubeaumonttower01.jpg',url2 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg'):
     #%matplotlib inline
@@ -94,7 +95,7 @@ def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/
         plt.show();
     interact(affine_image, a1=(-180,180), s=(0.001,5), tx=(-1.0,1.0), ty=(-1,1,0.1),alpha=(0.0,1.0)); ##TODO: Modify this line of code
 
-def points(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg', point_color='black',point_radius=2):
+def points(url = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg', point_color='black',point_radius=2):
     import sys
     sys.path.append('./packages')
     #%matplotlib inline
@@ -265,24 +266,23 @@ def points(url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.j
     fig = plt.figure(figsize=(9,6))
     plt.imshow(im)
     pickpoints(color=point_color, radius=point_radius, x='xcoords', y='ycoords')
-    #print('x', cleanformat(xcoords))
-    #print('y', cleanformat(ycoords))
-        def __init__(self, radius=4, color="white", x ='x', y ='y'):
-            self.dict_ = {"type": "annotate",
-                          "radius": radius,
-                          "color": color,
-                          "x": x,
-                          "y": y};
+    if 'xcoords' in locals():
+        return (xcoords,ycoords)
     
-    with urlopen(url1) as file:
-        im = imread(file, mode='RGB')
-    fig = plt.figure(figsize=(9,6))
-    plt.imshow(im)
-    pickpoints(color='cyan', radius=2, x='xcoords', y='ycoords')
-    #print('x', cleanformat(xcoords))
-    #print('y', cleanformat(ycoords))
-    
+def point_coords(xcoords,ycoords):
+    def cleanformat(var):
+        varlist = []
+        if type(var) == float:
+            varlist = '{:05.2f}'.format(var)
+        else:
+            for i in range(len(var)):
+                varlist.append('{:05.2f}'.format(var[i]))
+        return varlist
+    print('x', cleanformat(xcoords))
+    print('y', cleanformat(ycoords))
+
 def paint(filename='Chameleon.jpg'):
+    import matplotlib.pyplot as plt
     from IPython.display import HTML
     import base64
     from urllib.request import urlopen
@@ -575,7 +575,9 @@ def paint(filename='Chameleon.jpg'):
 
     """
     return HTML(main_txt)
-    %matplotlib inline
+    
+def paint_plot(image):    
+    #%matplotlib inline
     import matplotlib.pylab as plt
     from PIL import Image
     import base64
