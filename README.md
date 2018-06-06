@@ -3,7 +3,10 @@ This is a library compiled from multiple Jupyterhub image analysis projects.
 These projects include a camera program, an image alignment program, a point selection program, and a paint program.
 ## camera
 This allows the user to access their camera via javascript.
-The user can snap a photo by clicking on the "Snap Photo" button, and the photo is displayed on an x-y plot.
+The user can snap a photo by clicking on the "Snap Photo" button and saves the photo as "image".
+## image_plot
+This takes an image variable that was likely snapped by either the camera function or the paint function.
+It displays the image on an x-y plot.
 ## alignment
 This program allows the user to input the url of two different photos.
 The program uses python to allow the user to change the horizontal or vertical alignments of the photos, fade one photo into the other, change the size of each photo, and rotate the photos.
