@@ -48,7 +48,7 @@ def camera():
     """
     return HTML(main_text)
     
-def camera_plot(image):
+def image_plot(image):
     im = Image.open(io.BytesIO(base64.b64decode(image.split(',')[1])))
     plt.imshow(im)
     return im
@@ -581,16 +581,16 @@ def paint(filename='Chameleon.jpg'):
     """
     return HTML(main_txt)
     
-def paint_plot(image):    
+#def paint_plot(image):    
     #%matplotlib inline
-    import matplotlib.pylab as plt
-    from PIL import Image
-    import base64
-    import io
-    import numpy as np
-
-    pil_im = Image.open(io.BytesIO(base64.b64decode(image.split(',')[1])))
-    im3 = np.array(pil_im)
-    im3 = im3[:,:]
-    plt.imshow(im3)
-    pil_im
+#    import matplotlib.pylab as plt
+#    from PIL import Image
+#    import base64
+#    import io
+#    import numpy as np
+#
+#    pil_im = Image.open(io.BytesIO(base64.b64decode(image.split(',')[1])))
+#    im3 = np.array(pil_im)
+#    im3 = im3[:,:]
+#    plt.imshow(im3)
+#    pil_im
