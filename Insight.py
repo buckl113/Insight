@@ -286,7 +286,7 @@ def point_coords(xcoords,ycoords):
     print('x', cleanformat(xcoords))
     print('y', cleanformat(ycoords))
 
-def paint(filename='Chameleon.jpg'):
+def paint(filename='chameleon.jpg'):
     import matplotlib.pyplot as plt
     from IPython.display import HTML
     import base64
