@@ -499,7 +499,6 @@ def paint(filename='chameleon.jpg'):
                          .unbind("mouseout");
           }
 
-    // Buttons to change the size of the stroke
     document.getElementById("default").addEventListener("click", function() {
          sigSize = 5;
     });
@@ -516,7 +515,6 @@ def paint(filename='chameleon.jpg'):
          sigSize = 20;
     });
 
-    \\ Buttons to change the color of the stroke
     document.getElementById("black").addEventListener("click", function() {
          sigColor = 'Black';
     });
@@ -553,7 +551,6 @@ def paint(filename='chameleon.jpg'):
          sigColor = 'Purple';
     });
 
-    \\ Buttons to choose between an eraser and a pen
     document.getElementById("eraser").addEventListener("click", function() {
          erase = true;
          //sigColor = '#ffffff';
