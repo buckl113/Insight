@@ -71,29 +71,31 @@ def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/
     import math
     
     # Open the two input urls
-    with urlopen(url1) as file:
-        im1 = imread(file, mode='RGB')
-    with urlopen(url2) as file:
-        im2 = imread(file, mode='RGB')
+    with urlopen(url1) as file1:
+        im1 = imread(file1, mode='RGB')
+    file1.close()
+    with urlopen(url2) as file2:
+        im2 = imread(file2, mode='RGB')
+    file2.close()
     im = im1
     
-    def affine_image(a1=0,s=1,tx=0,ty=0, alpha=1):
+    def affine_image(Rotation=0,Size=1,x=0,y=0, Fade=1):
         # This function allows users to shift images horizontally and vertically, 
         # change the image size, rotate images, and fade one image into the other
-        theta = -a1/180  * math.pi
-        dx = tx*im.shape[1]
-        dy = ty*im.shape[0]
-        S = np.matrix([[1/s,0,0], [0,1/s,0], [0,0,1]])
+        theta = -Rotation/180  * math.pi
+        dx = x*im.shape[1]
+        dy = y*im.shape[0]
+        S = np.matrix([[1/Size,0,0], [0,1/Size,0], [0,0,1]])
         T2 = np.matrix([[1,0,im.shape[1]/2], [0,1,im.shape[0]/2], [0,0,1]])
         T1 = np.matrix([[1,0,-im.shape[1]/2-dx], [0,1,-im.shape[0]/2-dy], [0,0,1]])
         R = np.matrix([[math.cos(theta),-math.sin(theta),0],[math.sin(theta), math.cos(theta),0],[0,0,1]])
         img = transform.warp(im, T2*S*R*T1);
         # The function displays both the images overlapped on one x-y plane
         plt.imshow(im2);
-        plt.imshow(img, alpha=alpha);
+        plt.imshow(img, alpha=Fade);
         plt.show();
     # Use sliders to translate images, change image size, rotate images, or fade images into each other.
-    interact(affine_image, a1=(-180,180), s=(0.001,5), tx=(-1.0,1.0), ty=(-1,1,0.1),alpha=(0.0,1.0)); ##TODO: Modify this line of code
+    interact(affine_image,Rotation=(-180,180),Size=(0.001,5), x=(-1.0,1.0), y=(-1,1,0.1),Fade=(0.0,1.0)); ##TODO: Modify this line of code
 
 def points(im = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg', point_color='black',point_radius=2):
     # The user can input a url of an image (there is a default image), a point color (default is black), and point radius (default is 2).
