@@ -7,7 +7,6 @@ import base64
 import io
 
 def camera():
-    #%matplotlib inline
 
     main_text = """
     <video id="video" width="640" height="480" autoplay></video>
@@ -49,23 +48,21 @@ def camera():
     return HTML(main_text)
     
 def image_plot(image):
+    # After snapping a photo in either camera or paint, input the variable name "image" to this function
+    
+    # Plots the image on an x-y plane
     im = Image.open(io.BytesIO(base64.b64decode(image.split(',')[1])))
     plt.imshow(im)
     return im
     
 def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/ar_16:9,c_fill,w_1000,g_face,q_50/Michigan/migration_photos/G21696/G21696-msubeaumonttower01.jpg',url2 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg'):
-    #%matplotlib inline
-    #from __future__ import division
-    import matplotlib.pyplot as plt
-    import numpy as np
+    # The user can input the url of up to 2 pictures. There are 2 default pictures.
+    
+    # Here are some libraries you will need to use
     import scipy.misc as misc
     from urllib.request import urlopen
     from scipy.misc import imread, imsave
-
     from skimage import transform
-
-    # Here are some libraries you may need to use
-    #%matplotlib inline
     import matplotlib.pylab as plt
     import sympy as sp
     sp.init_printing()
@@ -73,18 +70,17 @@ def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/
     from ipywidgets import interact
     import math
     
+    # Open the two input urls
     with urlopen(url1) as file:
         im1 = imread(file, mode='RGB')
     with urlopen(url2) as file:
         im2 = imread(file, mode='RGB')
-
-    #Show the images
-    #plt.imshow(im1);
-    #plt.imshow(im2)
     im = im1
+    
     def affine_image(a1=0,s=1,tx=0,ty=0, alpha=1):
+        # This function allows users to shift images horizontally and vertically, 
+        # change the image size, rotate images, and fade one image into the other
         theta = -a1/180  * math.pi
-
         dx = tx*im.shape[1]
         dy = ty*im.shape[0]
         S = np.matrix([[1/s,0,0], [0,1/s,0], [0,0,1]])
@@ -92,22 +88,20 @@ def alignment(url1 = 'http://res.cloudinary.com/miles-extranet-dev/image/upload/
         T1 = np.matrix([[1,0,-im.shape[1]/2-dx], [0,1,-im.shape[0]/2-dy], [0,0,1]])
         R = np.matrix([[math.cos(theta),-math.sin(theta),0],[math.sin(theta), math.cos(theta),0],[0,0,1]])
         img = transform.warp(im, T2*S*R*T1);
+        # The function displays both the images overlapped on one x-y plane
         plt.imshow(im2);
         plt.imshow(img, alpha=alpha);
         plt.show();
+    # Use sliders to translate images, change image size, rotate images, or fade images into each other.
     interact(affine_image, a1=(-180,180), s=(0.001,5), tx=(-1.0,1.0), ty=(-1,1,0.1),alpha=(0.0,1.0)); ##TODO: Modify this line of code
 
 def points(im = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg', point_color='black',point_radius=2):
-        
-    import sys
-    sys.path.append('./packages')
-    #%matplotlib inline
+    # The user can input a url of an image (there is a default image), a point color (default is black), and point radius (default is 2).
+    
+    # Here are some libraries you will need to use.
     import scipy.misc as misc
-    import matplotlib.pylab as plt
     from urllib.request import urlopen
     from scipy.misc import imread, imsave
-    
-    # NECESSARY IMPORTS
     import matplotlib.pyplot as plt
     import matplotlib.image as img
     import sys
@@ -115,37 +109,28 @@ def points(im = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg
     import mpld3
     from mpld3 import plugins
     mpld3.enable_notebook()
+    
+    # This checks is the input point radius is a valid number. If not, it sets the point radius to 2.
     try:
         point_radius=float(point_radius)
     except ValueError:
         point_radius=2
 
-    # PLOTS THE IMAGE IN THE NOTEBOOK
+    # Plots the image in the notebook
     def plot(imgname):
         fig, ax = plt.subplots()
         im = img.imread(imgname)
         plt.imshow(im, origin='lower')
         return fig
 
-    # FUNCTION CALLED IN THE NOTEBOOK
+    # Function called in the notebook
     def pickpoints(fig='', radius=4, color="white", x = 'x', y = 'y'):
         if not fig:
             fig = plt.gcf()
         plugins.connect(fig, Annotate(radius, color, x, y)) # color='htmlcolorname', radius=int
         plugins.connect(fig, plugins.MousePosition())
 
-    # FORMATS x AND y LISTS INTO SHORTER DECIMALS, SO THEY'RE NOT TOO LENGTHY
-    def cleanformat(var):
-        varlist = []
-        if type(var) == float:
-            varlist = '{:05.2f}'.format(var)
-        else:
-            for i in range(len(var)):
-                varlist.append('{:05.2f}'.format(var[i]))
-        return varlist
-
-
-    # MAIN CLASS THAT CONTAINS JAVASCRIPT CODE TO CREATE CIRCLES AND DRAG CIRCLES  
+    # Main class that contains Javascript code to create and drag circles  
     class Annotate(plugins.PluginBase):
         """A plugin that creates points in a figure by clicking the mouse"""
 
@@ -264,18 +249,23 @@ def points(im = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg
                           "x": x,
                           "y": y};
     
+    # Opens and displays the image
     if type(im) == str:
         with urlopen(im) as file:
             im2 = imread(file, mode='RGB')
         im = im2
     fig = plt.figure(figsize=(9,6))
     plt.imshow(im)
+    
+    # Runs the pickpoints function to allow the user to pick points on the image
     pickpoints(color=point_color, radius=point_radius, x='xcoords', y='ycoords')
-    if 'xcoords' in locals():
-        return (xcoords,ycoords)
     
 def point_coords(xcoords,ycoords):
+    # After selecting points using the points function, 
+    # input the variables named "xcoords" and "ycoords" into this function to display the x and y coordinates of the points.
+    
     def cleanformat(var):
+        # Formats x and y lists into shorter decimals, so they're not too lengthy
         varlist = []
         if type(var) == float:
             varlist = '{:05.2f}'.format(var)
@@ -283,21 +273,26 @@ def point_coords(xcoords,ycoords):
             for i in range(len(var)):
                 varlist.append('{:05.2f}'.format(var[i]))
         return varlist
+    
+    # Prints the cleanly formatted x and y coordinates
     print('x', cleanformat(xcoords))
     print('y', cleanformat(ycoords))
 
 def paint(filename='chameleon.jpg'):
+    #The user can input an image file name (There is a default image file)
+    
+    # Here are some necessary imports
     import matplotlib.pyplot as plt
     from IPython.display import HTML
     import base64
     from urllib.request import urlopen
     from scipy.misc import imread, imsave
-    url1 = 'http://msutoday.msu.edu/_/img/assets/2013/beaumont-spring-1.jpg'
-    with urlopen(url1) as file:
-        im1 = imread(file, mode='RGB')
+    
+    # Opens, reads and encodes the input image
     image = open(filename, 'rb')
     image_read = image.read()
     image_64_encode = base64.encodestring(image_read)
+    
     main_txt = """
        <h1>Canvas test</h1>
        <h4>Screenshot</h4>
@@ -504,6 +499,7 @@ def paint(filename='chameleon.jpg'):
                          .unbind("mouseout");
           }
 
+    // Buttons to change the size of the stroke
     document.getElementById("default").addEventListener("click", function() {
          sigSize = 5;
     });
@@ -520,6 +516,7 @@ def paint(filename='chameleon.jpg'):
          sigSize = 20;
     });
 
+    \\ Buttons to change the color of the stroke
     document.getElementById("black").addEventListener("click", function() {
          sigColor = 'Black';
     });
@@ -556,6 +553,7 @@ def paint(filename='chameleon.jpg'):
          sigColor = 'Purple';
     });
 
+    \\ Buttons to choose between an eraser and a pen
     document.getElementById("eraser").addEventListener("click", function() {
          erase = true;
          //sigColor = '#ffffff';
@@ -580,17 +578,3 @@ def paint(filename='chameleon.jpg'):
 
     """
     return HTML(main_txt)
-    
-#def paint_plot(image):    
-    #%matplotlib inline
-#    import matplotlib.pylab as plt
-#    from PIL import Image
-#    import base64
-#    import io
-#    import numpy as np
-#
-#    pil_im = Image.open(io.BytesIO(base64.b64decode(image.split(',')[1])))
-#    im3 = np.array(pil_im)
-#    im3 = im3[:,:]
-#    plt.imshow(im3)
-#    pil_im
