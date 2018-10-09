@@ -1,0 +1,7 @@
+README.md
+setup.py
+Insight_pkg/__init__.py
+Insight_pkg.egg-info/PKG-INFO
+Insight_pkg.egg-info/SOURCES.txt
+Insight_pkg.egg-info/dependency_links.txt
+Insight_pkg.egg-info/top_level.txt
