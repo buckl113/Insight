@@ -6,6 +6,11 @@ from IPython.display import HTML
 import base64
 import io
 
+import matplotlib.pyplot as plt
+import matplotlib.image as img
+import sys
+sys.path.append('./packages')
+
 def camera():
 
     main_text = """
@@ -50,7 +55,7 @@ def camera():
 def image_plot(image):
     # After snapping a photo in either camera or paint, input the variable name "image" to this function
     
-    # Plots the image on an x-y plane
+    # Displays the image and then plots the image on an x-y plane
     im = Image.open(io.BytesIO(base64.b64decode(image.split(',')[1])))
     plt.imshow(im)
     return im
